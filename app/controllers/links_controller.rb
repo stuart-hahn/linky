@@ -37,8 +37,13 @@ class LinksController < ApplicationController
     end
 
     def destroy
-        @link.destroy
-        redirect_to root_path, notice: "Link successfully deleted"
+        if current_user.owns_link?(@link)
+            @link.destroy
+            redirect_to root_path, notice: "Link successfully deleted"
+        else
+            flash.now[:alert] = "You are not authorized to delete that link"
+            redirect_back(fallback_location: root_path)
+        end
     end
 
     private
