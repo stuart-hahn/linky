@@ -5,7 +5,7 @@ class CommentsController < ApplicationController
             @comments = @link.comments
         else
             flash.now[:alert] = "That link doesn't exist" if params[:link_id]
-            @comments = Comment.all
+            @comments = Comment.newest
         end
     end
 
