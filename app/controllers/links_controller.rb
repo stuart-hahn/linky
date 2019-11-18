@@ -2,6 +2,7 @@ class LinksController < ApplicationController
     # CONVENTION index show new edit create update destroy
 
     def index
+        @links = Link.all
     end
 
     def show
