@@ -1,12 +1,12 @@
 class LinksController < ApplicationController
     # CONVENTION index show new edit create update destroy
+    before_action :set_link, only: [:show, :edit, :update, :destroy]
 
     def index
         @links = Link.all
     end
 
     def show
-        @link = Link.find(params[:id])
     end
 
     def new
@@ -28,6 +28,12 @@ class LinksController < ApplicationController
     end
 
     def update
+        if @link.update(link_params)
+            redirect_to link_path(@link), notice: "Link successfully updated"
+        else
+            flash.now[:alert] = "Failed to update link"
+            render :edit
+        end
     end
 
     def destroy
@@ -37,6 +43,10 @@ class LinksController < ApplicationController
 
     def link_params
         params.require(:link).permit(:title, :url)
+    end
+
+    def set_link
+        @link = Link.find_by(id: params[:id])
     end
 
 end
