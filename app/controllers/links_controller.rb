@@ -14,6 +14,7 @@ class LinksController < ApplicationController
     end
 
     def edit
+        redirect_to root_path, notice: 'Not authorized to edit this link' unless current_user && current_user.owns_link?(@link)
     end
 
     def create
