@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   resources :links do
     resources :comments
     post :upvote, on: :member
+    post :downvote, on: :member
   end
 
   root to: "links#index"

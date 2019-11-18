@@ -16,6 +16,22 @@ class User < ApplicationRecord
   def upvote(link)
     votes.create(upvote: 1, link: link)
   end
+
+  def upvoted?(link)
+    votes.exists?(upvote: 1, link: link)
+  end
+  
+  def remove_vote(link)
+    votes.find_by(link: link).destroy
+  end
+
+  def downvote(link)
+    votes.create(downvote: 1, link: link)
+  end
+  
+  def downvoted?(link)
+    votes.exists?(downvote: 1, link: link)
+  end
   
   def self.from_omniauth(auth)  
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
