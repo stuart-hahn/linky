@@ -5,6 +5,8 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable, :omniauthable
 
   has_many :links
+  has_many :comments
+  has_many :commented_links, through: :comments, source: :link
 
   def owns_link?(link)
     self == link.user
