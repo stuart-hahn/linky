@@ -1,3 +1,8 @@
 <h1>Link Show Page</h1>
 
 Read more: <%= link_to @link.title, @link.url %>
+
+<% if current_user.owns_link?(@link) %>
+    <%= link_to 'Edit', edit_link_path(@link) %> or 
+    <%= link_to 'Delete', link_path(@link), method: :delete %>
+<% end %>
