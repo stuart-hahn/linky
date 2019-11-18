@@ -4,7 +4,7 @@ class LinksController < ApplicationController
     before_action :set_link, only: [:show, :edit, :update, :destroy]
 
     def index
-        @links = Link.all
+        @links = Link.hottest
     end
 
     def show
@@ -50,19 +50,7 @@ class LinksController < ApplicationController
 
     ## CUSTOM ROUTES
 
-    def upvote
-        link = Link.find_by(id: params[:id])
-        if current_user.upvoted?(link)
-            current_user.remove_vote(link)
-        elsif current_user.downvoted?(link)
-            current_user.remove_vote(link)
-            current_user.upvote(link)
-        else
-            current_user.upvote(link)
-        end
-        redirect_to root_path
-    end
-
+    
     def downvote
         link = Link.find_by(id: params[:id])
         if current_user.downvoted?(link)
@@ -73,9 +61,28 @@ class LinksController < ApplicationController
         else
             current_user.downvote(link)
         end
+        link.calc_hot_score
+        redirect_to root_path
+    end
+    
+    def upvote
+        link = Link.find_by(id: params[:id])
+        if current_user.upvoted?(link)
+            current_user.remove_vote(link)
+        elsif current_user.downvoted?(link)
+            current_user.remove_vote(link)
+            current_user.upvote(link)
+        else
+            current_user.upvote(link)
+        end
+        link.calc_hot_score
         redirect_to root_path
     end
 
+    def newest
+        @links = Link.newest
+    end
+    
     private
 
     def link_params

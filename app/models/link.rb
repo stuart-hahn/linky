@@ -8,6 +8,7 @@ class Link < ApplicationRecord
   validates :url, presence: true
 
   scope :hottest, -> { order(hot_score: :desc) }
+  scope :newest, -> { order(created_at: :desc) }
 
   def upvotes
     votes.sum(:upvote)
