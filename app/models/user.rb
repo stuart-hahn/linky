@@ -12,6 +12,10 @@ class User < ApplicationRecord
   def owns_link?(link)
     self == link.user
   end
+
+  def upvote(link)
+    votes.create(upvote: 1, link: link)
+  end
   
   def self.from_omniauth(auth)  
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|

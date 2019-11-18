@@ -6,4 +6,9 @@ class Link < ApplicationRecord
 
   validates :title, presence: true, uniqueness: { case_sensitive: false }
   validates :url, presence: true
+
+  def upvotes
+    votes.sum(:upvote)
+  end
+  
 end
