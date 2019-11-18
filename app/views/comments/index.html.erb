@@ -1,0 +1,11 @@
+<h1>All Comments</h1>
+
+<ul>
+    <% @comments.each do |comment| %>
+        <li>
+            <%= comment.user.email %> about
+            <%= link_to comment.link.title, link_path(comment.link) %>:
+            <%= comment.body %>
+        </li>
+    <% end %>
+</ul>

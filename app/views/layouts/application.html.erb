@@ -15,6 +15,7 @@
       <%= link_to('Logout', destroy_user_session_path, method: :delete) %>
       <%= link_to 'All Links', links_path %>
       <%= link_to 'New Link', new_link_path %>
+      <%= link_to 'Comments', comments_path %>
     <% else %>
       <%= link_to('Login', new_user_session_path) %>
     <% end %>
