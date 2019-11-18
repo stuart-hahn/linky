@@ -1,6 +1,18 @@
 <h1>Link Show Page</h1>
 
-Read more: <%= link_to @link.title, @link.url %>
+<p>Read more: <%= link_to @link.title, @link.url %><p>
+<p>Comments:<p>
+
+<% if !@link.comments.empty? %>
+    <ul>
+    <% @link.comments.each do |comment| %>
+        <li><%= comment.body %></li>
+    <% end %>
+    </ul>
+<% end %>
+
+<p>Add a comment:</p>
+<%= render 'comments/form' %>
 
 <% if current_user && current_user.owns_link?(@link) %>
     <%= link_to 'Edit', edit_link_path(@link) %> or 
