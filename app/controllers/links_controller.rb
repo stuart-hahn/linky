@@ -1,6 +1,6 @@
 class LinksController < ApplicationController
     # CONVENTION index show new edit create update destroy
-    before_action :authenticate_user!, except: [:index]
+    skip_before_action :authenticate_user!, only: [:index]
     before_action :set_link, only: [:show, :edit, :update, :destroy]
 
     def index

@@ -1,5 +1,4 @@
 <%= form_with(model: [@link, @link.comments.build], local: true) do |f| %>
-    <%= render 'shared/errors', object: @link.comments.build %>
     <%= f.label :body %>
     <%= f.text_area :body %>
 

@@ -3,7 +3,7 @@ Rails.application.routes.draw do
 
   resources :comments, only: [:index]
   resources :links do
-    resources :comments
+    resources :comments, shallow: true
     post :upvote, on: :member
     post :downvote, on: :member
   end
