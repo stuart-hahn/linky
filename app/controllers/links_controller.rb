@@ -20,7 +20,8 @@ class LinksController < ApplicationController
         if @link.save
             redirect_to link_path(@link), notice: "Link successfully created"
         else
-            render :new, alert: "Failed to create link"
+            flash.now[:alert] = "Failed to create link"
+            render :new
         end
     end
 

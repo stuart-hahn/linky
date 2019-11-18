@@ -1,11 +1,11 @@
 <%= form_with model: @link, local: true do |f| %>
-    <%= render 'shared/errors', model: @link %>
-    
+    <%= render 'shared/errors', object: @link %>
+
     <%= f.label :title %>
     <%= f.text_field :title %>
 
     <%= f.label :url %>
     <%= f.url_field :url %>
 
-    <% f.submit %>
+    <%= f.submit %>
 <% end %>
