@@ -12,9 +12,11 @@ class CommentsController < ApplicationController
     def new
         if params[:link_id] && @link = Link.find_by(id: params[:link_id])
             @comment = @link.comments.build
-        else
+        elsif params[:link_id]
             flash[:alert] = "That link doesn't exist"
             redirect_to comments_path
+        else
+            render :new
         end
     end
 
