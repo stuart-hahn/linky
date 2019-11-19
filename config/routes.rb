@@ -1,9 +1,9 @@
 Rails.application.routes.draw do
   devise_for :users, :controllers => { :omniauth_callbacks => "callbacks" }
 
-  resources :comments, only: [:new, :create, :index]
+  resources :comments, only: [:index]
   resources :links do
-    resources :comments, shallow: true
+    resources :comments, only: [:new, :create, :index]
     post :upvote, on: :member
     post :downvote, on: :member
   end

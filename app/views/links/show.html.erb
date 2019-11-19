@@ -12,10 +12,10 @@
     </ul>
 <% end %>
 
-<p>Add a comment:</p>
-<%= render 'comments/form' %>
-
 <% if current_user && current_user.owns_link?(@link) %>
-    <%= link_to 'Edit', edit_link_path(@link) %> or 
-    <%= link_to 'Delete', link_path(@link), method: :delete %>
+    <p>
+        You own this link:
+        (<%= link_to 'Edit', edit_link_path(@link) %> or 
+        <%= link_to 'Delete', link_path(@link), method: :delete %>)
+    </p>
 <% end %>
