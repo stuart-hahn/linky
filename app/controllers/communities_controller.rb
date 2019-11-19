@@ -3,7 +3,7 @@ class CommunitiesController < ApplicationController
     before_action :set_link, only: [:show, :edit, :update, :destroy]
 
     def index
-        @communitites = Community.all
+        @communities = Community.all
     end
 
     def show
