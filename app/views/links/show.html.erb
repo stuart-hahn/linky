@@ -7,12 +7,10 @@
 
 <p>Comments:<p>
 
-<% if !@link.comments.empty? %>
-    <ul>
+<% if @link.comments %>
     <% @link.comments.each do |comment| %>
         <li><%= comment.body %></li>
     <% end %>
-    </ul>
 <% end %>
 
 <% if current_user && current_user.owns_link?(@link) %>

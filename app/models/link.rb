@@ -18,10 +18,6 @@ class Link < ApplicationRecord
     votes.sum(:downvote)
   end
 
-  def points
-    upvotes - downvotes
-  end
-
   def calc_hot_score
     points = upvotes - downvotes
     time_ago_in_hours = ((Time.now - created_at) / 3600).round
