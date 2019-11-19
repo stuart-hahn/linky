@@ -1,0 +1,7 @@
+<%= form_with model: @community, local: true do |f| %>
+    <%= render '/shared/errors', object: @community %>
+    <%= f.label :title %>
+    <%= f.text_field :title %>
+
+    <%= f.submit %>
+<% end %>

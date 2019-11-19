@@ -13,6 +13,7 @@ class LinksController < ApplicationController
 
     def new
         @link = Link.new
+        @link.build_community
     end
 
     def edit
@@ -26,7 +27,7 @@ class LinksController < ApplicationController
             redirect_to link_path(@link), notice: "Link successfully created"
         else
             flash.now[:alert] = "Failed to create link"
-            render :new
+                    render plain: params.inspect
         end
     end
 
@@ -87,7 +88,7 @@ class LinksController < ApplicationController
     private
 
     def link_params
-        params.require(:link).permit(:title, :url)
+        params.require(:link).permit(:title, :url, :community_id, community_attributes: [:title, :user_id])
     end
 
     def set_link

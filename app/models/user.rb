@@ -15,6 +15,10 @@ class User < ApplicationRecord
     self == link.user
   end
 
+  def owns_community?(community)
+    self == community.user
+  end
+
   def upvote(link)
     votes.create(upvote: 1, link: link)
   end

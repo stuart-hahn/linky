@@ -2,10 +2,21 @@
     <%= render 'shared/errors', object: @link %>
 
     <%= f.label :title %>
-    <%= f.text_field :title %>
+    <%= f.text_field :title %></br>
 
     <%= f.label :url %>
-    <%= f.url_field :url %>
+    <%= f.url_field :url %></br>
+
+    <%= f.label "Choose a community:" %>
+    <%= f.collection_select :community_id, Community.all, :id, :title, include_blank: true %>
+
+
+    <p>Or create a new community:
+    <%= f.fields_for :community do |c|%>
+        <%= c.hidden_field :user_id, value: current_user.id %>
+        <%= c.text_field :title%>
+    <% end %>
+    </p>
 
     <%= f.submit %>
 <% end %>

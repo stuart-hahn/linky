@@ -1,7 +1,4 @@
 class CommunitiesController < ApplicationController
-    skip_before_action :authenticate_user!, only: [:index]
-    before_action :set_link, only: [:show, :edit, :update, :destroy]
-
     def index
         @communities = Community.all
     end
@@ -19,10 +16,10 @@ class CommunitiesController < ApplicationController
     end
 
     def create
-        @communty = Community.new(community_params)
+        @community = current_user.communities.build(community_params)
 
         if @community.save
-            redirect_to community_path(@community), notice: "SUCCESS"
+            redirect_to communities_path, notice: "SUCCESS"
         else
             flash.now[:alert] = "FAILURE"
             render :new
@@ -31,6 +28,13 @@ class CommunitiesController < ApplicationController
 
     def update
         @community = Community.find_by(id: params[:id])
+
+        if @community.update(community_params)
+            redirect_to community_path(@community), notice: "SUCCESSFULLY EDITED"
+        else
+            flash.now[:alert] = "FAILURE"
+            render :edit
+        end
     end
 
     def destroy

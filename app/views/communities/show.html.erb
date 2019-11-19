@@ -1,1 +1,13 @@
 <h1>Community Show Page</h1>
+<p><%= @community.title %> Links:</p>
+
+<ul>
+    <% @community.links.each do |link| %>
+        <li><%= link_to link.title, link_path(link) %></li>
+    <% end %>
+</ul>
+
+<% if current_user.owns_community?(@community) %>
+    <p>You own this community: (<%= link_to 'Edit', edit_community_path(@community) %> or 
+    <%= link_to 'Delete', community_path(@community), method: :delete %>)</p>
+<% end %>
