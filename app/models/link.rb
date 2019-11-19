@@ -3,6 +3,7 @@ class Link < ApplicationRecord
   has_many :comments
   has_many :users, through: :comments
   has_many :votes
+  belongs_to :community
 
   validates :title, presence: true, uniqueness: { case_sensitive: false }
   validates :url, presence: true

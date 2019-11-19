@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_18_204134) do
+ActiveRecord::Schema.define(version: 2019_11_19_191026) do
 
   create_table "comments", force: :cascade do |t|
     t.string "body"
@@ -22,14 +22,24 @@ ActiveRecord::Schema.define(version: 2019_11_18_204134) do
     t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
+  create_table "communities", force: :cascade do |t|
+    t.string "title"
+    t.integer "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_communities_on_user_id"
+  end
+
   create_table "links", force: :cascade do |t|
     t.string "title"
     t.string "url"
     t.integer "user_id", null: false
+    t.integer "community_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "points", default: 1
     t.float "hot_score", default: 0.0
+    t.index ["community_id"], name: "index_links_on_community_id"
     t.index ["user_id"], name: "index_links_on_user_id"
   end
 
@@ -60,6 +70,8 @@ ActiveRecord::Schema.define(version: 2019_11_18_204134) do
 
   add_foreign_key "comments", "links"
   add_foreign_key "comments", "users"
+  add_foreign_key "communities", "users"
+  add_foreign_key "links", "communities"
   add_foreign_key "links", "users"
   add_foreign_key "votes", "links"
   add_foreign_key "votes", "users"

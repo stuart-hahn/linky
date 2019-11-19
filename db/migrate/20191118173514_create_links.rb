@@ -4,6 +4,7 @@ class CreateLinks < ActiveRecord::Migration[6.0]
       t.string :title
       t.string :url
       t.belongs_to :user, null: false, foreign_key: true
+      t.belongs_to :community, null: false, foreign_key: true
 
       t.timestamps
     end
