@@ -1,5 +1,7 @@
 <h1>All Comments</h1>
 
+<p><strong><%= @link.title if @link %></strong></p>
+
 <ul>
     <% @comments.each do |comment| %>
         <li>

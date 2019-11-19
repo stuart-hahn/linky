@@ -3,6 +3,7 @@ class CommentsController < ApplicationController
         if params[:link_id] && @link = Link.find_by(id: params[:link_id])
             @comments = @link.comments
         else
+            flash.now[:alert] = "That link doesn't exist" if params[:link_id]
             @comments = Comment.newest
         end
     end
