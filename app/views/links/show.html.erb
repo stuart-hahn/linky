@@ -2,6 +2,9 @@
 
 <p>This link has <%= pluralize(@link.upvotes, 'upvote') %> and <%= pluralize(@link.points, 'total point') %>.</p>
 <p>Read more: <%= link_to @link.title, @link.url %><p>
+
+<%= render 'comments/form' %>
+
 <p>Comments:<p>
 
 <% if !@link.comments.empty? %>
