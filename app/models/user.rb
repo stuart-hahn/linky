@@ -9,6 +9,7 @@ class User < ApplicationRecord
   has_many :commented_links, through: :comments, source: :link
   has_many :votes
   has_many :communities
+  has_many :posted_to_communities, through: :links, source: :community
 
   def owns_link?(link)
     self == link.user
