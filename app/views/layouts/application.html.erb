@@ -14,6 +14,8 @@
     <% if user_signed_in? %>
       <%= link_to('Logout', destroy_user_session_path, method: :delete) %>
       <%= link_to 'All Links', links_path %>
+      <%= link_to 'All Communities', communities_path %>
+      <%= link_to  'New Community', new_community_path %>
       <%= link_to 'Newest', newest_path %>
       <%= link_to 'New Link', new_link_path %>
       <%= link_to 'Comments', comments_path %>

@@ -4,7 +4,12 @@ class LinksController < ApplicationController
     before_action :set_link, only: [:show, :edit, :update, :destroy]
 
     def index
-        @links = Link.hottest
+        if params[:community_id] && @community = Community.find_by(id: params[:community_id])
+            @links = @community.links.hottest
+        else
+            flash.now[:alert] = "That community doesn't exist" if params[:community_id]
+            @links = Link.hottest
+        end
     end
 
     def show
@@ -12,8 +17,12 @@ class LinksController < ApplicationController
     end
 
     def new
-        @link = Link.new
-        @link.build_community
+        if params[:community_id] && @community = Community.find_by(id: params[:community_id])
+            @link = @community.links.build
+        else
+            flash.now[:alert] = "That community doesn't exist" if params[:community_id]
+            @link = Link.new
+        end
     end
 
     def edit
@@ -22,12 +31,13 @@ class LinksController < ApplicationController
 
     def create
         @link = current_user.links.build(link_params)
-
+        @community = current_user.communities.find_or_initialize_by(title: params[:link][:community_title])
+        @link.community = @community
         if @link.save
             redirect_to link_path(@link), notice: "Link successfully created"
         else
             flash.now[:alert] = "Failed to create link"
-                    render plain: params.inspect
+            render :new
         end
     end
 
@@ -88,7 +98,7 @@ class LinksController < ApplicationController
     private
 
     def link_params
-        params.require(:link).permit(:title, :url, :community_id, community_attributes: [:title, :user_id])
+        params.require(:link).permit(:title, :url, :community_id, :community_title)
     end
 
     def set_link

@@ -7,16 +7,16 @@
     <%= f.label :url %>
     <%= f.url_field :url %></br>
 
-    <%= f.label "Choose a community:" %>
-    <%= f.collection_select :community_id, Community.all, :id, :title, include_blank: true %>
-
-
-    <p>Or create a new community:
-    <%= f.fields_for :community do |c|%>
-        <%= c.hidden_field :user_id, value: current_user.id %>
-        <%= c.text_field :title%>
+    <% if !@community %>
+        <%= f.text_field :community_title, list: "communities_autocomplete" %>
+        <datalist id="communities_autocomplete">
+            <% Community.all.each do |community| %>
+            <option value="<%= community.title %>">
+        <% end %>
+        </datalist>
+    <% else %>
+        <%= f.hidden_field :community_id %>
     <% end %>
-    </p>
 
     <%= f.submit %>
 <% end %>

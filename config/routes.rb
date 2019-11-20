@@ -1,8 +1,12 @@
 Rails.application.routes.draw do
-  resources :communities
   devise_for :users, :controllers => { :omniauth_callbacks => "callbacks" }
-
+  
   resources :comments, only: [:index]
+  
+  resources :communities do
+    resources :links, only: [:new, :create, :index]
+  end
+
   resources :links do
     resources :comments, only: [:new, :create, :index]
     post :upvote, on: :member

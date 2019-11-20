@@ -11,9 +11,8 @@ class Link < ApplicationRecord
   scope :hottest, -> { order(hot_score: :desc) }
   scope :newest, -> { order(created_at: :desc) }
 
-  def community_attributes=(attr)
-    binding.pry
-    self.community = Community.find_or_create_by(attr)
+  def community_title=(title)
+    self.community = Community.find_or_create_by(title: title)
   end
 
   def upvotes

@@ -9,8 +9,12 @@ class CommentsController < ApplicationController
     end
 
     def new
-        @link = Link.find_by(id: params[:link_id])
-        @comment = @link.comments.build
+        if params[:link_id] && @link = Link.find_by(id: params[:link_id])
+            @comment = @link.comments.build
+        else
+            flash[:alert] = "That link doesn't exist" if params[:link_id]
+            redirect_back(fallback_location: root_path)
+        end
     end
 
     def create
