@@ -1,9 +1,9 @@
 <ul>
 <% @links.each do |link| %>
     <li>
-        <%= pluralize(link.points, 'point') %> | 
-            <%= link_to "▲", upvote_link_path(link), method: :post %>
-            <%= link_to "▼", downvote_link_path(link), method: :post %>
+        <%= link_to "↑", upvote_link_path(link), method: :post %>
+        <%= link.points %>
+        <%= link_to "↓", downvote_link_path(link), method: :post %>
         <%= link_to link.title, link_path(link) %>
     </li>
 <% end %>
