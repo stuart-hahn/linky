@@ -1,19 +1,12 @@
 class Link < ApplicationRecord
   belongs_to :user
-  has_many :comments
-  has_many :users, through: :comments
-  has_many :votes
-  belongs_to :community
-
+  belongs_to :category
+  
   validates :title, presence: true, uniqueness: { case_sensitive: false }
   validates :url, presence: true
 
   scope :hottest, -> { order(hot_score: :desc) }
   scope :newest, -> { order(created_at: :desc) }
-
-  def community_title=(title)
-    self.community = Community.find_or_create_by(title: title)
-  end
 
   def upvotes
     votes.sum(:upvote)

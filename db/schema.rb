@@ -24,10 +24,8 @@ ActiveRecord::Schema.define(version: 2019_11_19_191026) do
 
   create_table "communities", force: :cascade do |t|
     t.string "title"
-    t.integer "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["user_id"], name: "index_communities_on_user_id"
   end
 
   create_table "links", force: :cascade do |t|
@@ -70,7 +68,6 @@ ActiveRecord::Schema.define(version: 2019_11_19_191026) do
 
   add_foreign_key "comments", "links"
   add_foreign_key "comments", "users"
-  add_foreign_key "communities", "users"
   add_foreign_key "links", "communities"
   add_foreign_key "links", "users"
   add_foreign_key "votes", "links"

@@ -1,64 +1,23 @@
 class LinksController < ApplicationController
     # CONVENTION index show new edit create update destroy
     skip_before_action :authenticate_user!, only: [:index]
-    before_action :set_link, only: [:show, :edit, :update, :destroy]
 
     def index
-        if params[:community_id] && @community = Community.find_by(id: params[:community_id])
-            @links = @community.links.hottest
-        else
-            flash.now[:alert] = "That community doesn't exist" if params[:community_id]
-            @links = Link.hottest
-        end
+        @links = Link.hottest
     end
 
     def show
-        @comment = Comment.new
+        @link = Link.find_by(id: params[:id])
     end
 
     def new
-        if params[:community_id] && @community = Community.find_by(id: params[:community_id])
-            @link = @community.links.build
-        else
-            flash.now[:alert] = "That community doesn't exist" if params[:community_id]
-            @link = Link.new
-        end
+        @link = current_user.links.build
     end
 
     def edit
-        redirect_to root_path, notice: 'Not authorized to edit this link' unless current_user && current_user.owns_link?(@link)
+        @link = current_user.links.update(link_params)
     end
 
-    def create
-        @link = current_user.links.build(link_params)
-        @community = current_user.communities.find_or_initialize_by(title: params[:link][:community_title])
-        @link.community = @community
-        if @link.save
-            redirect_to link_path(@link), notice: "Link successfully created"
-        else
-            flash.now[:alert] = "Failed to create link"
-            render :new
-        end
-    end
-
-    def update
-        if @link.update(link_params)
-            redirect_to link_path(@link), notice: "Link successfully updated"
-        else
-            flash.now[:alert] = "Failed to update link"
-            render :edit
-        end
-    end
-
-    def destroy
-        if current_user.owns_link?(@link)
-            @link.destroy
-            redirect_to root_path, notice: "Link successfully deleted"
-        else
-            flash.now[:alert] = "You are not authorized to delete that link"
-            redirect_back(fallback_location: root_path)
-        end
-    end
 
     ## CUSTOM ROUTES
 
@@ -98,11 +57,7 @@ class LinksController < ApplicationController
     private
 
     def link_params
-        params.require(:link).permit(:title, :url, :community_id, :community_title)
-    end
-
-    def set_link
-        @link = Link.find_by(id: params[:id])
+        params.require(:link).permit(:title, :url)
     end
 
 end
