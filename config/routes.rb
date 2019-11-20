@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   end
 
   resources :links do
-    resources :comments, only: [:create, :index]
+    resources :comments, shallow: true
     post :upvote, on: :member
     post :downvote, on: :member
   end
