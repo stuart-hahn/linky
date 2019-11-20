@@ -1,5 +1,6 @@
-<h1>Community Show Page</h1>
-<p><%= @community.title %> Links:</p>
+<h1><%= @community.title %> Links</h1>
+
+<p><%= link_to  'Add a new ' + @community.title + ' link', new_community_link_path(@community) %></p>
 
 <ul>
     <% @community.links.each do |link| %>

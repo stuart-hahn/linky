@@ -3,7 +3,12 @@ class LinksController < ApplicationController
     skip_before_action :authenticate_user!, only: [:index]
 
     def index
-        @links = Link.hottest
+        if params[:community_id] && @community = Community.find_by(id: params[:community_id])
+            @links = @community.links.hottest
+        else
+            flash.now[:alert] = "That community doesn't exist" if params[:community_id]
+            @links = Link.hottest
+        end
     end
 
     def show
