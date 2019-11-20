@@ -30,7 +30,7 @@ class LinksController < ApplicationController
 
     def create
         @link = current_user.links.build(link_params)
-        if @link.save!
+        if  @link.community_id && @link.save
             redirect_to link_path(@link), notice: "Successfully created link"
         else
             flash.now[:alert] = "Failed to save link"
@@ -69,7 +69,7 @@ class LinksController < ApplicationController
             current_user.downvote(link)
         end
         link.calc_hot_score
-        redirect_to root_path
+        redirect_back(fallback_location: root_path)
     end
     
     def upvote
@@ -83,7 +83,7 @@ class LinksController < ApplicationController
             current_user.upvote(link)
         end
         link.calc_hot_score
-        redirect_to root_path
+        redirect_back(fallback_location: root_path)
     end
 
     def newest
