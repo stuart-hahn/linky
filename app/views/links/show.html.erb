@@ -3,13 +3,13 @@
 
 <p>Read more: <%= link_to @link.title, @link.url %><p>
 
-<p>Comments:<p>
-
 <%= link_to  "Add a comment", new_link_comment_path(@link) %>
+
+<h3>Comments:</h3>
 
 <% if @link.comments %>
     <% @link.comments.each do |comment| %>
-        <li><%= comment.body %></li>
+        <li><%= comment.body %> - by <%= comment.user.email %></li>
     <% end %>
 <% end %>
 

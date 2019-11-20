@@ -6,6 +6,7 @@ class CommunitiesController < ApplicationController
 
     def show
         @community = Community.find_by(id: params[:id])
+        redirect_to community_links_path(@community)
     end
 
     def new
