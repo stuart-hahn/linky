@@ -1,4 +1,4 @@
-<%= form_with model: @link, local: true do |f| %>
+<%= form_with model: [@community, @link], local: true do |f| %>
     <%= render 'shared/errors', object: @link %>
 
     <%= f.label :title %>
@@ -8,13 +8,15 @@
     <%= f.url_field :url %></br>
 
     <% if !@community %>
-        <%= f.text_field :community_title, list: "communities_autocomplete" %>
+    <p>Find or create a community:</p>
+        <%= f.text_field :community_title, list: "communities_autocomplete", value: "Uncategorized" %>
         <datalist id="communities_autocomplete">
             <% Community.all.each do |community| %>
             <option value="<%= community.title %>">
         <% end %>
         </datalist>
     <% else %>
+    <p>This will be posted in: <%= @community.title %></p>
         <%= f.hidden_field :community_id %>
     <% end %>
 

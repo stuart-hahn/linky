@@ -11,11 +11,42 @@ class LinksController < ApplicationController
     end
 
     def new
-        @link = current_user.links.build
+        if params[:community_id] && @community = Community.find_by(id: params[:community_id])
+            @link = @community.links.build
+        else
+            flash.now[:alert] = "That community doesn't exist" if params[:community_id]
+            @link = Link.new
+        end
     end
 
     def edit
-        @link = current_user.links.update(link_params)
+        @link = Link.find_by(id: params[:id])
+    end
+
+    def create
+        @link = current_user.links.build(link_params)
+        if @link.save!
+            redirect_to link_path(@link), notice: "Successfully created link"
+        else
+            flash.now[:alert] = "Failed to save link"
+            render :new
+        end
+    end
+    
+    def update
+        @link = Link.find_by(id: params[:id])
+        if @link.update(link_params)
+            redirect_to link_path(@link), notice: "Successfully edited link"
+        else
+            flash.now[:alert] = "Failed to edit link"
+            render :edit
+        end
+    end
+
+    def destroy
+        @link = Link.find_by(id: params[:id])
+        @link.destroy
+        redirect_to root_path
     end
 
 
@@ -57,7 +88,7 @@ class LinksController < ApplicationController
     private
 
     def link_params
-        params.require(:link).permit(:title, :url)
+        params.require(:link).permit(:title, :url, :community_title)
     end
 
 end

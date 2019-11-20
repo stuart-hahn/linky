@@ -16,25 +16,18 @@ class CommunitiesController < ApplicationController
     end
 
     def create
-        @community = current_user.communities.build(community_params)
+        @community = Community.new(community_params)
 
         if @community.save
-            redirect_to communities_path, notice: "SUCCESS"
+            redirect_to community_path(@community), notice: "Successfully created community"
         else
-            flash.now[:alert] = "FAILURE"
+            flash.now[:alert] = "Failed to create community"
             render :new
         end
     end
 
     def update
         @community = Community.find_by(id: params[:id])
-
-        if @community.update(community_params)
-            redirect_to community_path(@community), notice: "SUCCESSFULLY EDITED"
-        else
-            flash.now[:alert] = "FAILURE"
-            render :edit
-        end
     end
 
     def destroy
