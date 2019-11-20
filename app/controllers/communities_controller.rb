@@ -1,6 +1,7 @@
 class CommunitiesController < ApplicationController
     def index
-        @communities = Community.all
+        @communities = Community.most_links
+        # @communities = Community.alphabetized
     end
 
     def show

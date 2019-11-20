@@ -1,7 +1,9 @@
 <h1>All Communities</h1>
 
+<%= link_to  "Start a Community", new_community_path %>
+
 <ul>
 <% @communities.each do |community| %>
-    <li><%= link_to community.title, community_path(community) %></li>
+    <li><%= link_to community.title, community_path(community) %> | <%= community.links.count %> Links </li>
 <% end %>
 </ul>
