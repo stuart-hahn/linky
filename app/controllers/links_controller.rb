@@ -30,7 +30,7 @@ class LinksController < ApplicationController
 
     def create
         @link = current_user.links.build(link_params)
-        if  @link.community_id && @link.save
+        if  @link.save
             redirect_to link_path(@link), notice: "Successfully created link"
         else
             flash.now[:alert] = "Failed to save link"

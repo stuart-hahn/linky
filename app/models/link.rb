@@ -8,16 +8,17 @@ class Link < ApplicationRecord
 
   validates :title, presence: true, uniqueness: { case_sensitive: false }
   validates :url, presence: true
+  validates :community_title, presence: true
 
   scope :hottest, -> { order(hot_score: :desc) }
   scope :newest, -> { order(created_at: :desc) }
 
-  def community_title=(title = "Uncategorized")
+  def community_title=(title)
     self.community = Community.find_or_create_by(title: title)
   end
 
   def community_title
-     self.community ? self.community.title : nil
+    self.community.title
   end
 
   def upvotes
