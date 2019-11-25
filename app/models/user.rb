@@ -14,9 +14,9 @@ class User < ApplicationRecord
     self == link.user
   end
 
-  def owns_community?(community)
-    self == community.user
-  end
+  # def owns_community?(community)
+  #   self == community.user
+  # end
 
   def upvote(link)
     votes.create(upvote: 1, link: link)
@@ -39,6 +39,7 @@ class User < ApplicationRecord
   end
   
   def self.from_omniauth(auth)  
+    binding.pry
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
       user.provider = auth.provider
       user.uid = auth.uid
