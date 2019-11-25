@@ -1,6 +1,7 @@
 class LinksController < ApplicationController
     # CONVENTION index show new edit create update destroy
     skip_before_action :authenticate_user!, only: [:index]
+    before_action :set_link, only: [:show, :edit, :update, :destroy, :downvote, :upvote]
 
     def index
         if params[:community_id] && @community = Community.find_by(id: params[:community_id])
@@ -12,7 +13,6 @@ class LinksController < ApplicationController
     end
 
     def show
-        @link = Link.find_by(id: params[:id])
     end
 
     def new
@@ -25,7 +25,6 @@ class LinksController < ApplicationController
     end
 
     def edit
-        @link = Link.find_by(id: params[:id])
     end
 
     def create
@@ -39,7 +38,6 @@ class LinksController < ApplicationController
     end
     
     def update
-        @link = Link.find_by(id: params[:id])
         if @link.update(link_params)
             redirect_to link_path(@link), notice: "Successfully edited link"
         else
@@ -49,7 +47,6 @@ class LinksController < ApplicationController
     end
 
     def destroy
-        @link = Link.find_by(id: params[:id])
         @link.destroy
         redirect_to root_path
     end
@@ -59,30 +56,28 @@ class LinksController < ApplicationController
 
     
     def downvote
-        link = Link.find_by(id: params[:id])
-        if current_user.downvoted?(link)
-            current_user.remove_vote(link)
-        elsif current_user.upvoted?(link)
-            current_user.remove_vote(link)
-            current_user.downvote(link)
+        if current_user.downvoted?(@link)
+            current_user.remove_vote(@link)
+        elsif current_user.upvoted?(@link)
+            current_user.remove_vote(@link)
+            current_user.downvote(@link)
         else
-            current_user.downvote(link)
+            current_user.downvote(@link)
         end
-        link.calc_hot_score
+        @link.calc_hot_score
         redirect_back(fallback_location: root_path)
     end
     
     def upvote
-        link = Link.find_by(id: params[:id])
-        if current_user.upvoted?(link)
-            current_user.remove_vote(link)
-        elsif current_user.downvoted?(link)
-            current_user.remove_vote(link)
-            current_user.upvote(link)
+        if current_user.upvoted?(@link)
+            current_user.remove_vote(@link)
+        elsif current_user.downvoted?(@link)
+            current_user.remove_vote(@link)
+            current_user.upvote(@link)
         else
-            current_user.upvote(link)
+            current_user.upvote(@link)
         end
-        link.calc_hot_score
+        @link.calc_hot_score
         redirect_back(fallback_location: root_path)
     end
 
@@ -94,6 +89,10 @@ class LinksController < ApplicationController
 
     def link_params
         params.require(:link).permit(:title, :url, :community_title, :community_id)
+    end
+
+    def set_link
+        @link = Link.find_by(id: params[:id])
     end
 
 end
