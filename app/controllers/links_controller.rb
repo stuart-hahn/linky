@@ -54,6 +54,9 @@ class LinksController < ApplicationController
 
     ## CUSTOM ROUTES
 
+    def my_commented_links
+        @links = current_user.commented_links
+    end
     
     def downvote
         if current_user.downvoted?(@link)

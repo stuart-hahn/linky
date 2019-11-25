@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   end
 
   get '/newest' => 'links#newest'
+  get '/my_commented_links' => 'links#my_commented_links'
 
   root to: "links#index"
   
